@@ -1,0 +1,667 @@
+/* =============================================================
+   Expense & Budget Visualizer — style.css
+   All styling lives here. No inline styles or <style> blocks.
+   Requirements: 2.2, 2.7, 4.1, 7.1, 8.4
+   ============================================================= */
+
+/* ── CSS Custom Properties (light theme defaults) ────────────
+   Dark-mode overrides are defined in [data-theme="dark"] below.
+   All color values are referenced via these variables so the
+   theme toggle (Requirement 9) only needs to swap this block.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --color-bg-page:          #f5f7fa;
+  --color-bg-surface:       #ffffff;
+  --color-bg-item:          #f8f9fa;
+  --color-bg-badge:         #e9ecef;
+  --color-bg-submit:        #0f3460;
+  --color-bg-submit-hover:  #16213e;
+  --color-bg-input:         #ffffff;
+
+  /* Text */
+  --color-text-primary:     #1a1a2e;
+  --color-text-heading:     #16213e;
+  --color-text-balance:     #0f3460;
+  --color-text-label:       #495057;
+  --color-text-muted:       #6c757d;
+  --color-text-submit:      #ffffff;
+  --color-text-amount:      #0f3460;
+
+  /* Borders / accents */
+  --color-border-input:     #ced4da;
+  --color-border-focus:     #0f3460;
+  --color-border-item:      #0f3460;
+  --color-border-delete:    #dc3545;
+  --color-border-surface:   transparent;
+
+  /* Semantic / feedback */
+  --color-danger:           #dc3545;
+  --color-danger-bg:        #f8d7da;
+  --color-danger-text:      #842029;
+  --color-danger-border:    #f5c2c7;
+  --color-warning-bg:       #fff3cd;
+  --color-warning-text:     #856404;
+  --color-warning-border:   #ffc107;
+
+  /* Shadows */
+  --shadow-surface:         0 1px 4px rgba(0, 0, 0, 0.08);
+
+  /* Focus ring */
+  --focus-ring:             0 0 0 3px rgba(15, 52, 96, 0.25);
+}
+
+/* ── Dark theme overrides ────────────────────────────────────
+   Applied by js/app.js: document.body.setAttribute('data-theme','dark')
+   Contrast ratios ≥ 4.5:1 for all text/bg pairings (Req 9.5).
+   ──────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --color-bg-page:          #0d1117;
+  --color-bg-surface:       #161b22;
+  --color-bg-item:          #21262d;
+  --color-bg-badge:         #30363d;
+  --color-bg-submit:        #58a6ff;
+  --color-bg-submit-hover:  #79b8ff;
+  --color-bg-input:         #0d1117;
+
+  --color-text-primary:     #e6edf3;
+  --color-text-heading:     #f0f6fc;
+  --color-text-balance:     #79b8ff;
+  --color-text-label:       #8b949e;
+  --color-text-muted:       #6e7681;
+  --color-text-submit:      #0d1117;
+  --color-text-amount:      #79b8ff;
+
+  --color-border-input:     #30363d;
+  --color-border-focus:     #58a6ff;
+  --color-border-item:      #58a6ff;
+  --color-border-delete:    #f85149;
+  --color-border-surface:   #30363d;
+
+  --color-danger:           #f85149;
+  --color-danger-bg:        #3d1215;
+  --color-danger-text:      #ffa198;
+  --color-danger-border:    #f85149;
+  --color-warning-bg:       #2d2000;
+  --color-warning-text:     #e3b341;
+  --color-warning-border:   #9e6a03;
+
+  --shadow-surface:         0 1px 4px rgba(0, 0, 0, 0.4);
+  --focus-ring:             0 0 0 3px rgba(88, 166, 255, 0.35);
+}
+
+/* ── Reset & base ────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-page);
+  min-height: 100vh;
+  /* Prevent horizontal overflow at any viewport width (Req 8.4) */
+  overflow-x: hidden;
+}
+
+/* ── Banners ─────────────────────────────────────────────────── */
+/* Req 6.4, 6.5 — warning/error banners displayed at top of page */
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  /* Ensure banner is always visible at the very top of the viewport */
+  position: relative;
+  z-index: 100;
+}
+
+.banner--warning {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  border-bottom: 2px solid var(--color-warning-border);
+}
+
+.banner--error {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  border-bottom: 2px solid var(--color-danger);
+}
+
+.banner__dismiss {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: inherit;
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  flex-shrink: 0;
+  /* Accessible target size ≥ 44×44 equivalent padding */
+  min-width: 2rem;
+  min-height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner__dismiss:hover {
+  opacity: 0.7;
+}
+
+.banner__dismiss:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ── App layout ──────────────────────────────────────────────── */
+/* Req 8.4 — responsive 320px–1920px, no horizontal scrollbar   */
+.app-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  /* min-width intentionally omitted — content adapts down to 320px */
+}
+
+/* ── Header & balance ────────────────────────────────────────── */
+/* Req 4.1 — #balance-display appears ABOVE transaction list and chart.
+   This is guaranteed by document order: .app-header comes before
+   .content-area in the DOM. Flexbox/grid stacks them top-to-bottom. */
+.app-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.app-title {
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  font-weight: 700;
+  color: var(--color-text-heading);
+  margin-bottom: 0.5rem;
+}
+
+/* Req 4.2 — formatted as $X.XX; Req 4.5 — shows $0.00 when empty */
+.balance-display {
+  font-size: clamp(1.75rem, 6vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-text-balance);
+  letter-spacing: 0.02em;
+  /* aria-live="polite" is on the element in HTML — screen readers
+     announce balance updates automatically */
+}
+
+/* ── Section headings ────────────────────────────────────────── */
+.section-heading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-heading);
+  margin-bottom: 0.75rem;
+}
+
+/* ── Content area (list + chart) ─────────────────────────────── */
+/* Req 8.4 — single column on narrow viewports, two columns ≥ 768px */
+.content-area {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .content-area {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Transaction list section ────────────────────────────────── */
+.transactions-section {
+  background: var(--color-bg-surface);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: var(--shadow-surface);
+  border: 1px solid var(--color-border-surface);
+  /* Ensure the section doesn't expand wider than its grid column */
+  min-width: 0;
+}
+
+/* Req 2.2 — list is scrollable when items exceed allocated height */
+.transaction-list {
+  list-style: none;
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* Subtle scrollbar styling for webkit browsers */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-input) transparent;
+}
+
+.transaction-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.transaction-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.transaction-list::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-input);
+  border-radius: 3px;
+}
+
+/* Req 2.3 — empty state placeholder */
+.transaction-list__empty {
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 0.5rem 0;
+}
+
+/* Req 2.1 — each row shows name, amount, category, delete */
+.transaction-item {
+  display: grid;
+  /* name takes remaining space; amount, category, delete are auto-sized */
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-bg-item);
+  border-radius: 0.375rem;
+  border-left: 4px solid var(--color-border-item);
+  /* Prevent the item itself from overflowing its grid column */
+  min-width: 0;
+}
+
+/* Req 2.7 — item name truncated with ellipsis if it exceeds display width.
+   min-width: 0 is REQUIRED inside grid for text-overflow to activate. */
+.transaction-item__name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  min-width: 0;
+  color: var(--color-text-primary);
+}
+
+.transaction-item__amount {
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--color-text-amount);
+}
+
+.transaction-item__category {
+  font-size: 0.8rem;
+  background: var(--color-bg-badge);
+  color: var(--color-text-primary);
+  padding: 0.2em 0.5em;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Req 3.1, 3.2 — delete control on each transaction row */
+.transaction-item__delete {
+  background: none;
+  border: 1px solid var(--color-border-delete);
+  color: var(--color-border-delete);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 0.2em 0.5em;
+  white-space: nowrap;
+  transition: background-color 0.15s, color 0.15s;
+  min-height: 1.75rem;
+}
+
+.transaction-item__delete:hover {
+  background-color: var(--color-border-delete);
+  color: #fff;
+}
+
+.transaction-item__delete:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ── Chart section ───────────────────────────────────────────── */
+/* Req 5.1–5.6 */
+.chart-section {
+  background: var(--color-bg-surface);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: var(--shadow-surface);
+  border: 1px solid var(--color-border-surface);
+  min-width: 0;
+}
+
+.chart-container {
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#spending-chart {
+  max-width: 100%;
+  max-height: 350px;
+}
+
+/* Req 5.5 — empty-state and error messages for the chart */
+.chart-empty-message,
+.chart-error-message {
+  color: var(--color-text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* ── Add Transaction form ────────────────────────────────────── */
+/* Req 1.1, 1.5, 1.6 */
+.form-section {
+  background: var(--color-bg-surface);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-surface);
+  border: 1px solid var(--color-border-surface);
+}
+
+/* Single column on narrow viewports; multi-column grid ≥ 640px (Req 8.4) */
+.transaction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .transaction-form {
+    display: grid;
+    /* name gets 2fr, amount and category get 1fr each, button auto-sizes */
+    grid-template-columns: 2fr 1fr 1fr auto;
+    align-items: start;
+    gap: 0.75rem 1rem;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  /* Prevent field from overflowing its grid column */
+  min-width: 0;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-label);
+}
+
+.form-input,
+.form-select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border-input);
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--color-text-primary);
+  background: var(--color-bg-input);
+  width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  /* Prevent overflow at very narrow widths */
+  min-width: 0;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
+  box-shadow: var(--focus-ring);
+}
+
+/* Req 1.5 — red border on fields that fail validation */
+.form-input.is-invalid,
+.form-select.is-invalid {
+  border-color: var(--color-danger);
+}
+
+.form-input.is-invalid:focus,
+.form-select.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
+}
+
+/* Req 1.5 — inline error messages below invalid fields */
+.form-error {
+  font-size: 0.8rem;
+  color: var(--color-danger);
+  /* Reserve height so layout doesn't jump when error appears/disappears */
+  min-height: 1.1rem;
+  line-height: 1.375;
+}
+
+.form-submit {
+  padding: 0.6rem 1.25rem;
+  background-color: var(--color-bg-submit);
+  color: var(--color-text-submit);
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  /* Align button baseline with the bottom of adjacent inputs */
+  align-self: end;
+  transition: background-color 0.15s;
+  white-space: nowrap;
+  /* Accessible minimum touch target height */
+  min-height: 2.5rem;
+}
+
+.form-submit:hover {
+  background-color: var(--color-bg-submit-hover);
+}
+
+.form-submit:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ── General error/toast messages ────────────────────────────── */
+/* Used by showBanner() for inline storage-failure toasts */
+.error-toast {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  border: 1px solid var(--color-danger-border);
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+/* ── Theme toggle button (Task 11.1) ─────────────────────────── */
+/* Positioned in the top-right corner of the app header.
+   Placeholder rule — full implementation lives in task 11.1. */
+#theme-toggle {
+  background: none;
+  border: 1px solid var(--color-border-input);
+  color: var(--color-text-primary);
+  border-radius: 0.375rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+#theme-toggle:hover {
+  background-color: var(--color-bg-badge);
+}
+
+#theme-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ── Monthly summary section (Task 11.2) ─────────────────────── */
+/* Placeholder rules — full implementation lives in task 11.2. */
+#monthly-summary {
+  background: var(--color-bg-surface);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-surface);
+  border: 1px solid var(--color-border-surface);
+  margin-bottom: 1.5rem;
+}
+
+.monthly-summary__empty {
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 0.25rem 0;
+}
+
+.monthly-summary__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.monthly-summary__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.25rem;
+  background: var(--color-bg-item);
+  font-size: 0.95rem;
+}
+
+.monthly-summary__label {
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.monthly-summary__total {
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--color-text-amount);
+}
+
+/* ── Sort control (Task 11.3) ─────────────────────────────────── */
+/* Placeholder rules — full implementation lives in task 11.3.
+   Matches the form aesthetic (same input/select base styles). */
+.sort-control-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.sort-control-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-label);
+  white-space: nowrap;
+}
+
+#sort-control {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--color-border-input);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: var(--color-text-primary);
+  background: var(--color-bg-input);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+#sort-control:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
+  box-shadow: var(--focus-ring);
+}
+
+/* ── .transaction-name alias ─────────────────────────────────── */
+/* app.js applies both .transaction-item__name and .transaction-name
+   to the name cell. This rule ensures the alias class also enforces
+   ellipsis truncation in case it is ever used standalone (Req 2.7). */
+.transaction-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* ── Utility: visually-hidden (for accessibility helpers) ──────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Narrow-viewport adjustments (320px) ─────────────────────── */
+/* Req 8.4 — ensure no horizontal scrollbar appears at 320px */
+@media (max-width: 479px) {
+  .transaction-item {
+    /* At very narrow widths, stack amount and category onto a second row
+       so they don't force horizontal overflow. */
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+  }
+
+  .transaction-item__name {
+    grid-column: 1 / 2;
+    grid-row: 1;
+  }
+
+  .transaction-item__delete {
+    grid-column: 2 / 3;
+    grid-row: 1;
+  }
+
+  .transaction-item__amount {
+    grid-column: 1 / 2;
+    grid-row: 2;
+    font-size: 0.85rem;
+  }
+
+  .transaction-item__category {
+    grid-column: 2 / 3;
+    grid-row: 2;
+  }
+
+  .banner {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .app-layout {
+    padding: 1rem 0.75rem;
+  }
+}
+
+/* ── Wide-viewport centering (≥ 1440px) ─────────────────────── */
+/* Req 8.4 — centred container at large widths */
+@media (min-width: 1440px) {
+  .app-layout {
+    padding: 2rem 1.5rem;
+  }
+}
