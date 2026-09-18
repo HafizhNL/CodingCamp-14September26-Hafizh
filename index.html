@@ -7,24 +7,42 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- Dynamic banners are injected here by showBanner() in app.js -->
+    <!-- Banner notifikasi -->
 
     <main class="app-layout">
       <header class="app-header">
+        <!-- Bagian header dan kontrol tema -->
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label="Switch to dark mode"
+          aria-pressed="false"
+        >🌙 Dark</button>
         <h1 class="app-title">Expense &amp; Budget Visualizer</h1>
         <div id="balance-display" class="balance-display" aria-live="polite">$0.00</div>
       </header>
 
       <section class="content-area">
-        <!-- Transaction List -->
+        <!-- Bagian daftar transaksi -->
         <section class="transactions-section" aria-labelledby="transactions-heading">
           <h2 id="transactions-heading" class="section-heading">Transactions</h2>
+          <!-- Kontrol pengurutan transaksi -->
+          <div class="sort-control-wrapper">
+            <label for="sort-control" class="sort-control-label">Sort by:</label>
+            <select id="sort-control" aria-label="Sort transactions">
+              <option value="timestamp-desc">Newest first</option>
+              <option value="amount-asc">Amount (low → high)</option>
+              <option value="amount-desc">Amount (high → low)</option>
+              <option value="category-asc">Category (A–Z)</option>
+              <option value="category-desc">Category (Z–A)</option>
+            </select>
+          </div>
           <ul id="transaction-list" class="transaction-list" aria-label="Transaction list">
             <li class="transaction-list__empty">No transactions yet</li>
           </ul>
         </section>
 
-        <!-- Spending Chart -->
+        <!-- Bagian chart pengeluaran -->
         <section class="chart-section" aria-labelledby="chart-heading">
           <h2 id="chart-heading" class="section-heading">Spending by Category</h2>
           <div class="chart-container">
@@ -34,7 +52,15 @@
         </section>
       </section>
 
-      <!-- Add Transaction Form -->
+      <!-- Bagian ringkasan bulanan -->
+      <section id="monthly-summary" aria-labelledby="monthly-summary-heading">
+        <h2 id="monthly-summary-heading" class="section-heading">Monthly Summary</h2>
+        <ul class="monthly-summary__list" aria-label="Monthly spending summary">
+          <li class="monthly-summary__empty">No monthly data available</li>
+        </ul>
+      </section>
+
+      <!-- Bagian form tambah transaksi -->
       <section class="form-section" aria-labelledby="form-heading">
         <h2 id="form-heading" class="section-heading">Add Transaction</h2>
         <form id="transaction-form" class="transaction-form" novalidate>
@@ -90,7 +116,7 @@
       </section>
     </main>
 
-    <!-- Chart.js via CDN — loaded before app.js so window.Chart is available -->
+    <!-- Library chart dan kode aplikasi -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="js/app.js"></script>
   </body>

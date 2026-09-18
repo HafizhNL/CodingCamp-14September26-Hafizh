@@ -267,6 +267,27 @@
         "chatSessionId": "sess_a9bcd3cf-769b-41ba-adc3-b4f962f19582",
         "timestamp": 1789730629331
       }
+    ],
+    "11.1 Implement dark/light mode toggle": [
+      {
+        "executionId": "b0e15218-5894-4b22-8bfe-2c240ec265b2",
+        "chatSessionId": "sess_bb80d60a-10be-4a1d-a225-bd0a121ff057",
+        "timestamp": 1789734385246
+      }
+    ],
+    "11.2 Implement monthly summary view": [
+      {
+        "executionId": "b0e15218-5894-4b22-8bfe-2c240ec265b2",
+        "chatSessionId": "sess_bb80d60a-10be-4a1d-a225-bd0a121ff057",
+        "timestamp": 1789734389393
+      }
+    ],
+    "11.3 Implement transaction sorting": [
+      {
+        "executionId": "b0e15218-5894-4b22-8bfe-2c240ec265b2",
+        "chatSessionId": "sess_bb80d60a-10be-4a1d-a225-bd0a121ff057",
+        "timestamp": 1789734393882
+      }
     ]
   }
 }

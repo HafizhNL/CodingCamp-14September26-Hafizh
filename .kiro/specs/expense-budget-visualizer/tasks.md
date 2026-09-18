@@ -170,21 +170,21 @@ Implement a fully client-side SPA using plain HTML, CSS, and Vanilla JavaScript.
   - Verify app bootstrap with pre-populated localStorage: list, balance, and chart all restore correctly
   - Verify storage unavailability banner and corrupt-data banner both render on bootstrap
 
-- [ ] 11. Implement enhancement features
-  - [ ] 11.1 Implement dark/light mode toggle
+- [~] 11. Implement enhancement features
+  - [-] 11.1 Implement dark/light mode toggle
     - Add a toggle button (e.g. `<button id="theme-toggle">`) to `index.html`
     - In `js/app.js`: read persisted preference from `localStorage.getItem('ebv_theme')` on bootstrap; apply by setting `document.body.setAttribute('data-theme', 'dark')` or removing the attribute for light mode; write the chosen value back via `localStorage.setItem('ebv_theme', value)` on each toggle
     - In `css/style.css`: define all colour values as CSS custom properties on `:root` (light defaults); override the same properties inside `[data-theme="dark"]` for the dark palette; no inline styles or JS-injected style rules
     - _Requirements: 9_
 
-  - [ ] 11.2 Implement monthly summary view
+  - [-] 11.2 Implement monthly summary view
     - Add a `<section id="monthly-summary">` container to `index.html` below the transaction list
     - In `js/app.js`: implement `renderMonthlySummary()` — derive groups from `TransactionManager.getAll()` by extracting the `YYYY-MM` prefix of each transaction's `timestamp` (formatted as a JS `Date`), sum `amount` per group, sort groups in reverse-chronological order, and render one row per month showing the month label and total formatted as `$X.XX`
     - Call `renderMonthlySummary()` alongside the other renderers wherever `renderAll()` is invoked (add, delete, bootstrap)
     - In `css/style.css`: add styles for `#monthly-summary` rows consistent with the existing layout
     - _Requirements: 10_
 
-  - [ ] 11.3 Implement transaction sorting
+  - [-] 11.3 Implement transaction sorting
     - Add a `<select id="sort-control">` element near the `#transaction-list` header in `index.html` with options: `timestamp-desc` (default, label "Newest first"), `amount-asc`, `amount-desc`, `category-asc`, `category-desc`
     - In `js/app.js`: on bootstrap read `localStorage.getItem('ebv_sort')` and set the select's value accordingly (fall back to `timestamp-desc`); attach a `change` listener that writes the chosen value to `localStorage.setItem('ebv_sort', value)` then calls `renderTransactionList()`
     - Modify `renderTransactionList()` to read the current sort key and sort `TransactionManager.getAll()` before rendering; tie-breaking is always reverse-chronological (`timestamp` descending)

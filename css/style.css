@@ -1,16 +1,5 @@
-/* =============================================================
-   Expense & Budget Visualizer — style.css
-   All styling lives here. No inline styles or <style> blocks.
-   Requirements: 2.2, 2.7, 4.1, 7.1, 8.4
-   ============================================================= */
-
-/* ── CSS Custom Properties (light theme defaults) ────────────
-   Dark-mode overrides are defined in [data-theme="dark"] below.
-   All color values are referenced via these variables so the
-   theme toggle (Requirement 9) only needs to swap this block.
-   ──────────────────────────────────────────────────────────── */
+/* Variabel warna tema terang */
 :root {
-  /* Backgrounds */
   --color-bg-page:          #f5f7fa;
   --color-bg-surface:       #ffffff;
   --color-bg-item:          #f8f9fa;
@@ -19,7 +8,6 @@
   --color-bg-submit-hover:  #16213e;
   --color-bg-input:         #ffffff;
 
-  /* Text */
   --color-text-primary:     #1a1a2e;
   --color-text-heading:     #16213e;
   --color-text-balance:     #0f3460;
@@ -28,14 +16,12 @@
   --color-text-submit:      #ffffff;
   --color-text-amount:      #0f3460;
 
-  /* Borders / accents */
   --color-border-input:     #ced4da;
   --color-border-focus:     #0f3460;
   --color-border-item:      #0f3460;
   --color-border-delete:    #dc3545;
   --color-border-surface:   transparent;
 
-  /* Semantic / feedback */
   --color-danger:           #dc3545;
   --color-danger-bg:        #f8d7da;
   --color-danger-text:      #842029;
@@ -44,17 +30,12 @@
   --color-warning-text:     #856404;
   --color-warning-border:   #ffc107;
 
-  /* Shadows */
   --shadow-surface:         0 1px 4px rgba(0, 0, 0, 0.08);
 
-  /* Focus ring */
   --focus-ring:             0 0 0 3px rgba(15, 52, 96, 0.25);
 }
 
-/* ── Dark theme overrides ────────────────────────────────────
-   Applied by js/app.js: document.body.setAttribute('data-theme','dark')
-   Contrast ratios ≥ 4.5:1 for all text/bg pairings (Req 9.5).
-   ──────────────────────────────────────────────────────────── */
+/* Variabel warna tema gelap */
 [data-theme="dark"] {
   --color-bg-page:          #0d1117;
   --color-bg-surface:       #161b22;
@@ -90,7 +71,7 @@
   --focus-ring:             0 0 0 3px rgba(88, 166, 255, 0.35);
 }
 
-/* ── Reset & base ────────────────────────────────────────────── */
+/* Reset dan style dasar */
 *,
 *::before,
 *::after {
@@ -111,12 +92,10 @@ body {
   color: var(--color-text-primary);
   background-color: var(--color-bg-page);
   min-height: 100vh;
-  /* Prevent horizontal overflow at any viewport width (Req 8.4) */
   overflow-x: hidden;
 }
 
-/* ── Banners ─────────────────────────────────────────────────── */
-/* Req 6.4, 6.5 — warning/error banners displayed at top of page */
+/* Banner notifikasi */
 .banner {
   display: flex;
   align-items: center;
@@ -124,7 +103,6 @@ body {
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
   font-size: 0.9rem;
-  /* Ensure banner is always visible at the very top of the viewport */
   position: relative;
   z-index: 100;
 }
@@ -151,7 +129,6 @@ body {
   padding: 0.15rem 0.35rem;
   border-radius: 0.25rem;
   flex-shrink: 0;
-  /* Accessible target size ≥ 44×44 equivalent padding */
   min-width: 2rem;
   min-height: 2rem;
   display: inline-flex;
@@ -168,22 +145,22 @@ body {
   box-shadow: var(--focus-ring);
 }
 
-/* ── App layout ──────────────────────────────────────────────── */
-/* Req 8.4 — responsive 320px–1920px, no horizontal scrollbar   */
+/* Layout utama aplikasi */
 .app-layout {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1.5rem 1rem;
-  /* min-width intentionally omitted — content adapts down to 320px */
 }
 
-/* ── Header & balance ────────────────────────────────────────── */
-/* Req 4.1 — #balance-display appears ABOVE transaction list and chart.
-   This is guaranteed by document order: .app-header comes before
-   .content-area in the DOM. Flexbox/grid stacks them top-to-bottom. */
+/* Header dan saldo */
 .app-header {
+  position: relative;
   margin-bottom: 1.5rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .app-title {
@@ -193,17 +170,14 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* Req 4.2 — formatted as $X.XX; Req 4.5 — shows $0.00 when empty */
 .balance-display {
   font-size: clamp(1.75rem, 6vw, 2.5rem);
   font-weight: 700;
   color: var(--color-text-balance);
   letter-spacing: 0.02em;
-  /* aria-live="polite" is on the element in HTML — screen readers
-     announce balance updates automatically */
 }
 
-/* ── Section headings ────────────────────────────────────────── */
+/* Judul setiap bagian */
 .section-heading {
   font-size: 1.1rem;
   font-weight: 600;
@@ -211,8 +185,7 @@ body {
   margin-bottom: 0.75rem;
 }
 
-/* ── Content area (list + chart) ─────────────────────────────── */
-/* Req 8.4 — single column on narrow viewports, two columns ≥ 768px */
+/* Area daftar transaksi dan chart */
 .content-area {
   display: grid;
   grid-template-columns: 1fr;
@@ -226,18 +199,16 @@ body {
   }
 }
 
-/* ── Transaction list section ────────────────────────────────── */
+/* Daftar transaksi */
 .transactions-section {
   background: var(--color-bg-surface);
   border-radius: 0.5rem;
   padding: 1rem;
   box-shadow: var(--shadow-surface);
   border: 1px solid var(--color-border-surface);
-  /* Ensure the section doesn't expand wider than its grid column */
   min-width: 0;
 }
 
-/* Req 2.2 — list is scrollable when items exceed allocated height */
 .transaction-list {
   list-style: none;
   max-height: 400px;
@@ -245,7 +216,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  /* Subtle scrollbar styling for webkit browsers */
   scrollbar-width: thin;
   scrollbar-color: var(--color-border-input) transparent;
 }
@@ -263,17 +233,14 @@ body {
   border-radius: 3px;
 }
 
-/* Req 2.3 — empty state placeholder */
 .transaction-list__empty {
   color: var(--color-text-muted);
   font-style: italic;
   padding: 0.5rem 0;
 }
 
-/* Req 2.1 — each row shows name, amount, category, delete */
 .transaction-item {
   display: grid;
-  /* name takes remaining space; amount, category, delete are auto-sized */
   grid-template-columns: 1fr auto auto auto;
   align-items: center;
   gap: 0.5rem;
@@ -281,12 +248,9 @@ body {
   background: var(--color-bg-item);
   border-radius: 0.375rem;
   border-left: 4px solid var(--color-border-item);
-  /* Prevent the item itself from overflowing its grid column */
   min-width: 0;
 }
 
-/* Req 2.7 — item name truncated with ellipsis if it exceeds display width.
-   min-width: 0 is REQUIRED inside grid for text-overflow to activate. */
 .transaction-item__name {
   overflow: hidden;
   white-space: nowrap;
@@ -311,7 +275,7 @@ body {
   white-space: nowrap;
 }
 
-/* Req 3.1, 3.2 — delete control on each transaction row */
+/* Tombol hapus transaksi */
 .transaction-item__delete {
   background: none;
   border: 1px solid var(--color-border-delete);
@@ -335,8 +299,7 @@ body {
   box-shadow: var(--focus-ring);
 }
 
-/* ── Chart section ───────────────────────────────────────────── */
-/* Req 5.1–5.6 */
+/* Chart pengeluaran */
 .chart-section {
   background: var(--color-bg-surface);
   border-radius: 0.5rem;
@@ -359,7 +322,6 @@ body {
   max-height: 350px;
 }
 
-/* Req 5.5 — empty-state and error messages for the chart */
 .chart-empty-message,
 .chart-error-message {
   color: var(--color-text-muted);
@@ -368,8 +330,7 @@ body {
   padding: 1rem;
 }
 
-/* ── Add Transaction form ────────────────────────────────────── */
-/* Req 1.1, 1.5, 1.6 */
+/* Form tambah transaksi */
 .form-section {
   background: var(--color-bg-surface);
   border-radius: 0.5rem;
@@ -378,7 +339,6 @@ body {
   border: 1px solid var(--color-border-surface);
 }
 
-/* Single column on narrow viewports; multi-column grid ≥ 640px (Req 8.4) */
 .transaction-form {
   display: flex;
   flex-direction: column;
@@ -388,7 +348,6 @@ body {
 @media (min-width: 640px) {
   .transaction-form {
     display: grid;
-    /* name gets 2fr, amount and category get 1fr each, button auto-sizes */
     grid-template-columns: 2fr 1fr 1fr auto;
     align-items: start;
     gap: 0.75rem 1rem;
@@ -399,7 +358,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  /* Prevent field from overflowing its grid column */
   min-width: 0;
 }
 
@@ -420,7 +378,6 @@ body {
   background: var(--color-bg-input);
   width: 100%;
   transition: border-color 0.15s, box-shadow 0.15s;
-  /* Prevent overflow at very narrow widths */
   min-width: 0;
 }
 
@@ -431,7 +388,6 @@ body {
   box-shadow: var(--focus-ring);
 }
 
-/* Req 1.5 — red border on fields that fail validation */
 .form-input.is-invalid,
 .form-select.is-invalid {
   border-color: var(--color-danger);
@@ -442,11 +398,9 @@ body {
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
 }
 
-/* Req 1.5 — inline error messages below invalid fields */
 .form-error {
   font-size: 0.8rem;
   color: var(--color-danger);
-  /* Reserve height so layout doesn't jump when error appears/disappears */
   min-height: 1.1rem;
   line-height: 1.375;
 }
@@ -460,11 +414,9 @@ body {
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  /* Align button baseline with the bottom of adjacent inputs */
   align-self: end;
   transition: background-color 0.15s;
   white-space: nowrap;
-  /* Accessible minimum touch target height */
   min-height: 2.5rem;
 }
 
@@ -477,8 +429,7 @@ body {
   box-shadow: var(--focus-ring);
 }
 
-/* ── General error/toast messages ────────────────────────────── */
-/* Used by showBanner() for inline storage-failure toasts */
+/* Pesan error dan notifikasi */
 .error-toast {
   background: var(--color-danger-bg);
   color: var(--color-danger-text);
@@ -489,9 +440,7 @@ body {
   font-size: 0.9rem;
 }
 
-/* ── Theme toggle button (Task 11.1) ─────────────────────────── */
-/* Positioned in the top-right corner of the app header.
-   Placeholder rule — full implementation lives in task 11.1. */
+/* Tombol mode terang/gelap */
 #theme-toggle {
   background: none;
   border: 1px solid var(--color-border-input);
@@ -501,6 +450,9 @@ body {
   font-size: 0.875rem;
   cursor: pointer;
   transition: background-color 0.15s, color 0.15s;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 #theme-toggle:hover {
@@ -512,8 +464,7 @@ body {
   box-shadow: var(--focus-ring);
 }
 
-/* ── Monthly summary section (Task 11.2) ─────────────────────── */
-/* Placeholder rules — full implementation lives in task 11.2. */
+/* Ringkasan bulanan */
 #monthly-summary {
   background: var(--color-bg-surface);
   border-radius: 0.5rem;
@@ -558,9 +509,7 @@ body {
   color: var(--color-text-amount);
 }
 
-/* ── Sort control (Task 11.3) ─────────────────────────────────── */
-/* Placeholder rules — full implementation lives in task 11.3.
-   Matches the form aesthetic (same input/select base styles). */
+/* Kontrol pengurutan transaksi */
 .sort-control-wrapper {
   display: flex;
   align-items: center;
@@ -593,10 +542,7 @@ body {
   box-shadow: var(--focus-ring);
 }
 
-/* ── .transaction-name alias ─────────────────────────────────── */
-/* app.js applies both .transaction-item__name and .transaction-name
-   to the name cell. This rule ensures the alias class also enforces
-   ellipsis truncation in case it is ever used standalone (Req 2.7). */
+/* Aturan tambahan untuk nama transaksi */
 .transaction-name {
   overflow: hidden;
   white-space: nowrap;
@@ -604,7 +550,7 @@ body {
   min-width: 0;
 }
 
-/* ── Utility: visually-hidden (for accessibility helpers) ──────── */
+/* Utility aksesibilitas */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -617,12 +563,9 @@ body {
   border: 0;
 }
 
-/* ── Narrow-viewport adjustments (320px) ─────────────────────── */
-/* Req 8.4 — ensure no horizontal scrollbar appears at 320px */
+/* Penyesuaian layar kecil */
 @media (max-width: 479px) {
   .transaction-item {
-    /* At very narrow widths, stack amount and category onto a second row
-       so they don't force horizontal overflow. */
     grid-template-columns: 1fr auto;
     grid-template-rows: auto auto;
   }
@@ -658,8 +601,7 @@ body {
   }
 }
 
-/* ── Wide-viewport centering (≥ 1440px) ─────────────────────── */
-/* Req 8.4 — centred container at large widths */
+/* Penyesuaian layar lebar */
 @media (min-width: 1440px) {
   .app-layout {
     padding: 2rem 1.5rem;
